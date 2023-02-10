@@ -22,7 +22,7 @@ or try
 make download
 ```
 
-### license
+## license
 
 MIT
 
