@@ -31,12 +31,13 @@ def main():
     # extract the comments part
     comments = post['comments_full']
 
-    # process comments as you want...
+    # process comments as you want
     def process(comment, reply=False):
-        name = comment['commenter_name']
-        text = comment['comment_text'].replace('\n', ' / ')
-        mark = 'c' if not reply else 'r'
-        print(f"{mark}\t{name}\t{text}")
+        # replace csv-unfriendly characters
+        name = comment['commenter_name'].replace("'", '`')
+        text = comment['comment_text'].replace('\n', ' / ').replace("'", '`')
+        code = 'c' if not reply else 'r'
+        print(f"{code}\t{name}\t{text}")
 
     for comment in comments:
         process(comment)
