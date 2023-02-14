@@ -31,16 +31,17 @@ def main():
     # extract the comments part
     comments = post['comments_full']
 
-    def print_and_replies(comment):
-        print(comment)
-        for reply in comment['replies']:
-            print('', reply, sep='\t')
-
     # process comments as you want...
-    process = print if not args.replies else print_and_replies
+    def process(comment, reply=False):
+        name = comment['commenter_name']
+        text = comment['comment_text'].replace('\n', ' / ')
+        mark = 'c' if not reply else 'r'
+        print(f"{mark}\t{name}\t{text}")
 
     for comment in comments:
         process(comment)
+        for reply in comment['replies']:
+            process(reply, reply=True)
 
 
 def get_args():
@@ -61,11 +62,6 @@ def get_args():
         help='number of comments to download, omit or set to 0 for all, seems that the number of retrieved comments are always a multiple of 30',
         type=int,
         default='0'
-    )
-    parser.add_argument(
-        '-r', '--replies',
-        help='download reply-comments as well',
-        action='store_true'
     )
     return parser.parse_args()
 
